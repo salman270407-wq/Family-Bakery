@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Firdaus Bakery Assistant</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    height: 100vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url("https://images.unsplash.com/photo-1608198093002-de6c9f1a41f8");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container */
+.chat-container {
+    width: 100%;
+    max-width: 420px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.chat-header {
+    padding: 14px;
+    text-align: center;
+    font-weight: 600;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Chat */
+#chat-box {
+    flex: 1;
+    padding: 14px;
+    overflow-y: auto;
+}
+
+/* Message */
+.msg {
+    margin-bottom: 12px;
+    display: flex;
+}
+
+.msg.user { justify-content: flex-end; }
+
+.msg span {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.user span {
+    background: #ffd6a5;
+    color: #333;
+    border-bottom-right-radius: 6px;
+}
+
+.bot span {
+    background: #6ec1e4;
+    color: #002;
+    border-bottom-left-radius: 6px;
+}
+
+/* Typing indicator */
+.typing {
+    background: #6ec1e4;
+    padding: 10px 14px;
+    border-radius: 18px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #003;
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+}
+
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+
+@keyframes blink {
+    0% { opacity: .2; }
+    20% { opacity: 1; }
+    100% { opacity: .2; }
+}
+
+/* Input */
+#input-area {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(0,0,0,0.3);
+}
+
+#message {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+button {
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: none;
+    background: #ff9f1c;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .chat-container {
+        height: 90vh;
+        border-radius: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">🥐 Firdaus Bakery Assistant</div>
+
+    <div id="chat-box"></div>
+
+    <div id="input-area">
+        <input type="text" id="message" placeholder="Tanya menu, jam buka, order..." />
+        <button onclick="sendMessage()">Kirim</button>
+    </div>
+</div>
+
+<script>
+const chatBox = document.getElementById("chat-box");
+const input = document.getElementById("message");
+let typingDiv = null;
+
+function addMessage(text, sender) {
+    const div = document.createElement("div");
+    div.className = "msg " + sender;
+    div.innerHTML = `<span>${text.replace(/\n/g,"<br>")}</span>`;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function showTyping() {
+    typingDiv = document.createElement("div");
+    typingDiv.className = "msg bot";
+    typingDiv.innerHTML = `
+        <div class="typing">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>`;
+    chatBox.appendChild(typingDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function removeTyping() {
+    if (typingDiv) {
+        typingDiv.remove();
+        typingDiv = null;
+    }
+}
+
+async function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    showTyping();
+
+    const response = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text })
+    });
+
+    const data = await response.json();
+
+    removeTyping();
+    addMessage(data.reply, "bot");
+}
+
+input.addEventListener("keydown", e => {
+    if (e.key === "Enter") sendMessage();
+});
+
+/* Welcome */
+addMessage(
+    "Halo 👋\nSaya asisten virtual Firdaus Bakery.\n\nSilakan tanya:\n• Menu\n• Jam buka\n• Alamat\n• Cara order",
+    "bot"
+);
+</script>
+
+</body>
+</html>

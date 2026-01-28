@@ -1,0 +1,69 @@
+[
+  {
+    "tag": "salam",
+    "keywords": ["halo", "hai", "hi", "selamat pagi", "selamat siang", "selamat sore", "selamat malam"],
+    "answer": "Halo 👋 Selamat datang di Firdaus Bakery. Kami siap membantu Anda seputar produk, jam operasional, lokasi, dan pemesanan."
+  },
+  {
+    "tag": "jam_operasional",
+    "keywords": ["jam buka", "jam operasional", "buka jam berapa", "sampai jam berapa", "tutup jam berapa"],
+    "answer": "⏰ Jam operasional Firdaus Bakery:\nSetiap hari pukul 08.00 – 22.00 WIB.\nKami melayani pembelian langsung dan pemesanan online."
+  },
+  {
+    "tag": "alamat",
+    "keywords": ["alamat", "lokasi", "di mana", "dimana", "maps", "pangkah", "alamat toko"],
+    "answer": "📍 Alamat Firdaus Bakery:\nPangkah, Kota Tegal, Jawa Tengah.\nSilakan datang langsung ke toko kami untuk pembelian langsung."
+  },
+  {
+    "tag": "cara_order",
+    "keywords": ["cara order", "cara pesan", "beli bagaimana", "order dimana", "pesan lewat apa", "order lewat apa"],
+    "answer": "🛒 Cara pemesanan di Firdaus Bakery:\n• Tokopedia\n• Shopee\n• Gojek\n• WhatsApp: 0878-5067-0438\n• Datang langsung ke toko kami di Pangkah, Kota Tegal."
+  },
+  {
+    "tag": "produk",
+    "keywords": ["jual apa saja", "produk", "menu", "roti", "kue", "jual roti", "jual kue"],
+    "answer": "🥐 Produk Firdaus Bakery:\n• Roti tawar\n• Roti manis\n• Donat\n• Brownies\n• Kue ulang tahun\n• Aneka roti dan kue segar lainnya\n\nSemua produk dibuat fresh setiap hari."
+  },
+  {
+    "tag": "kue_ulang_tahun",
+    "keywords": ["kue ulang tahun", "cake ultah", "birthday cake", "pesan kue ulang tahun"],
+    "answer": "🎂 Kami menerima pesanan kue ulang tahun dengan berbagai ukuran dan desain.\nSilakan hubungi WhatsApp 0878-5067-0438 untuk konsultasi desain dan harga."
+  },
+  {
+    "tag": "harga",
+    "keywords": ["harga", "berapa harganya", "price", "kisaran harga"],
+    "answer": "💰 Harga produk bervariasi tergantung jenis dan ukuran.\nUntuk informasi harga terbaru, silakan hubungi kami melalui WhatsApp atau marketplace resmi."
+  },
+  {
+    "tag": "pembayaran",
+    "keywords": ["pembayaran", "bayar pakai apa", "metode pembayaran", "transfer"],
+    "answer": "💳 Metode pembayaran yang tersedia:\n• Transfer Bank\n• E-Wallet (sesuai marketplace)\n• Pembayaran langsung di toko"
+  },
+  {
+    "tag": "pengiriman",
+    "keywords": ["pengiriman", "delivery", "antar", "kirim", "ongkir"],
+    "answer": "🚚 Pengiriman tersedia melalui:\n• Gojek / GoSend\n• Pengiriman marketplace\nBiaya ongkir menyesuaikan jarak dan layanan."
+  },
+  {
+    "tag": "promo",
+    "keywords": ["promo", "diskon", "potongan harga", "promo hari ini"],
+    "answer": "🎉 Promo & diskon tersedia di waktu tertentu.\nPantau terus toko kami di Tokopedia, Shopee, atau tanyakan langsung melalui WhatsApp."
+  },
+  {
+    "tag": "terima_kasih",
+    "keywords": ["terima kasih", "makasih", "thanks", "thank you"],
+    "answer": "🙏 Terima kasih telah menghubungi Firdaus Bakery.\nKami tunggu pesanannya dan semoga hari Anda menyenangkan!"
+  },
+  {
+    "tag": "kata_kasar",
+    "keywords": ["anjing", "tai", "tolol", "babi", "monyet", "bangsat", "bajingan"],
+    "answer": "Mohon maaf 🙏 kami tidak dapat menanggapi pesan dengan kata-kata yang kurang pantas.\nSilakan gunakan bahasa yang sopan agar kami dapat membantu Anda dengan baik 😊."
+  },
+
+  {
+  "tag": "fallback",
+  "keywords": [],
+  "answer": "Maaf 🙏 kami belum menemukan informasi yang sesuai dengan pertanyaan Anda.\n\nAgar kami bisa membantu, silakan tanyakan hal berikut:\n• Menu & produk roti\n• Jam operasional toko\n• Alamat & lokasi\n• Cara pemesanan\n\nJika membutuhkan bantuan langsung, silakan hubungi admin kami melalui WhatsApp:\n📱 0878-5067-0438 😊"
+}
+]
+
