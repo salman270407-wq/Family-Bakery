@@ -1,79 +1,79 @@
-import os
 import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+import os
+from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
+    ContextTypes,
     CommandHandler,
     MessageHandler,
-    ContextTypes,
     filters
 )
 
 from core import get_bot_reply
 
-# =========================
-# KONFIGURASI
-# =========================
-TOKEN = "7980947582:AAH8HchtixODasiRJO_Dd9Epj-CvBkoH9OU"
-WHATSAPP_URL = "https://wa.me/6287850670438"
-
-# =========================
+# =============================
 # LOGGING
-# =========================
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# =============================
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
-# =========================
-# TOMBOL WHATSAPP
-# =========================
-def whatsapp_button():
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton("📱 Order via WhatsApp", url=WHATSAPP_URL)]
-    ])
+# =============================
+# ENVIRONMENT VARIABLES
+# =============================
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-# =========================
-# COMMAND /start
-# =========================
+if not TOKEN:
+    print("❌ TELEGRAM_BOT_TOKEN belum diset")
+    exit()
+
+# =============================
+# MEMORY SINGKAT PER CHAT
+# =============================
+conversation_history = {}  # {chat_id: [{"user": msg, "bot": msg}, ...]}
+
+# =============================
+# COMMAND /START
+# =============================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = (
-        "🍞 *Family Bakery Assistant*\n\n"
-        "Halo 👋 Selamat datang di Family Bakery.\n\n"
-        "Silakan tanyakan:\n"
-        "• Menu & produk\n"
-        "• Jam operasional\n"
-        "• Alamat toko\n"
-        "• Cara pemesanan"
-    )
-
+    chat_id = update.effective_chat.id
+    conversation_history[chat_id] = []  # reset history
     await update.message.reply_text(
-        text,
-        parse_mode="Markdown",
-        reply_markup=whatsapp_button()
+        "Halo 👋 Selamat datang di *Family Bakery* 🥐🍞\n"
+        "Silakan ketik pertanyaan atau langsung pesan produk kami 😊"
     )
 
-# =========================
+# =============================
 # HANDLE PESAN USER
-# =========================
-async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# =============================
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    chat_id = update.effective_chat.id
     user_text = update.message.text
+
+    if chat_id not in conversation_history:
+        conversation_history[chat_id] = []
+
+    # Jawaban dari core.py
     reply = get_bot_reply(user_text)
 
-    await update.message.reply_text(
-        reply,
-        reply_markup=whatsapp_button()
-    )
+    # Simpan history
+    conversation_history[chat_id].append({
+        "user": user_text,
+        "bot": reply
+    })
 
-# =========================
-# MAIN
-# =========================
-def main():
+    await update.message.reply_text(reply)
+
+# =============================
+# MAIN PROGRAM
+# =============================
+if __name__ == '__main__':
+    print("🤖 Bot Family Bakery sedang dijalankan...")
+
     app = ApplicationBuilder().token(TOKEN).build()
-
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
+    app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
 
-    logger.info("🤖 Bot Family Bakery berjalan...")
     app.run_polling()
-
-if __name__ == "__main__":
-    main()
